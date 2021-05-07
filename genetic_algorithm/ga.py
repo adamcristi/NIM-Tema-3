@@ -8,7 +8,7 @@ class GeneticAlgorithmEncodedPermutations:
     """
 
     def __init__(self,
-                 nodes_count,
+                 vertecies_count,
                  edges_count,
                  adj_matrix,
                  pop_size=100,
@@ -21,6 +21,9 @@ class GeneticAlgorithmEncodedPermutations:
                  selection_function=None,
                  selection_args=None,
                  selection_kwargs=None,
+                 evaluation_function=None,
+                 evaluation_args=None,
+                 evaluation_kwargs=None,
                  fitness_function=None,
                  fitness_args=None,
                  fitness_kwargs=None
@@ -29,7 +32,7 @@ class GeneticAlgorithmEncodedPermutations:
         self.pop_size = pop_size
         self.population = []
 
-        self.nodes_count = nodes_count
+        self.vertecies_count = vertecies_count
         self.edges_count = edges_count
         self.adjacency_matrix = adj_matrix
 
@@ -40,31 +43,41 @@ class GeneticAlgorithmEncodedPermutations:
         self.mutation = mutation_function
         self.crossover = crossover_function
         self.selection = selection_function
+        self.evaluation = evaluation_function
         self.fitness = fitness_function
 
         # Set arguments
-        self.mutation_args = mutation_args
-        self.crossover_args = crossover_args
-        self.selection_args = selection_args
-        self.fitness_args = fitness_args
+        self.mutation_args = mutation_args if mutation_args is not None else []
+        self.crossover_args = crossover_args if crossover_args is not None else []
+        self.selection_args = selection_args if selection_args is not None else []
+        self.evaluation_args = evaluation_args if evaluation_args is not None else []
+        self.fitness_args = fitness_args if fitness_args is not None else []
 
         # Set kw arguments
-        self.mutation_kwargs = mutation_kwargs
-        self.crossover_kwargs = crossover_kwargs
-        self.selection_kwargs = selection_kwargs
-        self.fitness_kwargs = fitness_kwargs
+        self.mutation_kwargs = mutation_kwargs if mutation_kwargs is not None else {}
+        self.crossover_kwargs = crossover_kwargs if crossover_kwargs is not None else {}
+        self.selection_kwargs = selection_kwargs if selection_kwargs is not None else {}
+        self.evaluation_kwargs = evaluation_kwargs if evaluation_kwargs is not None else {}
+        self.fitness_kwargs = fitness_kwargs if fitness_kwargs is not None else {}
 
+        self.evaluation_values = np.array([])
         self.fitness_values = np.array([])
 
         # Initialize the population
         self.init_pop()
 
     def init_pop(self):
-        # self.population = np.array([np.random.permutation(self.nodes_count) for _ in range(self.pop_size)])
+        # self.population = np.array([np.random.permutation(self.vertecies_count) for _ in range(self.pop_size)])
         self.population = np.array([
-            [np.random.randint(0, remaining_nodes_index) for remaining_nodes_index in range(self.nodes_count, 1, -1)]
+            [np.random.randint(0, remaining_vertecies_index)
+             for remaining_vertecies_index in range(self.vertecies_count, 1, -1)]
             for chromosome_index in range(self.pop_size)
         ])
+
+    def eval_population(self):
+        return [self.evaluation(chromosome, self.adjacency_matrix,
+                                *self.evaluation_args, **self.evaluation_kwargs)
+                for chromosome in self.population]
 
     def execute(self, iterations=100, init=False):
 
@@ -74,12 +87,24 @@ class GeneticAlgorithmEncodedPermutations:
         min_iteration = self.iterations
         max_iteration = self.iterations + iterations
 
+        global_min = self.vertecies_count
         for iteration in range(min_iteration, max_iteration):
+            print(f"Iteration {iteration} : ", end="")
             # Set the number of iterations completed (which is the same as the index of current iteration)
             self.iterations = iteration
 
+            # Compute evaluation values
+            self.evaluation_values = self.eval_population()
+
+            # print(np.where(self.evaluation_values == np.min(self.evaluation_values)))
+            curr_min = np.min(self.evaluation_values)
+            # print(self.population[np.where(self.evaluation_values == curr_min)][0], " ", curr_min)
+            print(curr_min)
+            if global_min > curr_min:
+                global_min = curr_min
+
             # Compute fitness values
-            self.fitness_values = self.fitness(self.population,
+            self.fitness_values = self.fitness(self.evaluation_values,
                                                *self.fitness_args, **self.fitness_kwargs)
             # Apply selection
             self.population = self.selection(self.population, self.fitness_values,
@@ -92,3 +117,5 @@ class GeneticAlgorithmEncodedPermutations:
                                             *self.mutation_args, **self.mutation_kwargs)
             # Logging
             # ....................
+
+        print(global_min)

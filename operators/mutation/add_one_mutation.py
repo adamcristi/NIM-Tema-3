@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def order_mutation(population, mutation_rate=0.3, mutation_choosing_rate=-1):
+def add_one_mutation(population, mutation_rate=0.3, mutation_choosing_rate=-1):
     pop_size, chromosome_size = population.shape
 
     if mutation_choosing_rate > 0:
@@ -12,8 +12,9 @@ def order_mutation(population, mutation_rate=0.3, mutation_choosing_rate=-1):
         indecies = np.arange(0, pop_size)
 
     for index in indecies:
-        # Create a mask with selected genes for mutation
-        mutation_mask = np.array(np.random.rand(chromosome_size) < mutation_rate, dtype=np.byte)
+        for gene_index in range(0, chromosome_size):
+            if np.random.random() < mutation_rate:
+                # Apply mutation
+                population[index][gene_index] = (population[index][gene_index] + 1) % (chromosome_size + 1 - gene_index)
 
-        # Apply mutation
-        population[index] = (population[index] + mutation_mask) % 2
+    return population
