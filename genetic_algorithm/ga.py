@@ -1,7 +1,6 @@
 import numpy as np
 
 from genetic_algorithm.logging.compute_log_stats import compute_log_stats_realtime
-from genetic_algorithm.logging.logger import GALogger
 
 
 class GeneticAlgorithmEncodedPermutations:
@@ -94,7 +93,7 @@ class GeneticAlgorithmEncodedPermutations:
 
         global_min = self.vertecies_count
         for iteration in range(min_iteration, max_iteration):
-            print(f"Iteration {iteration}")
+            # print(f"Iteration {iteration}")
             # Set the number of iterations completed (which is the same as the index of current iteration)
             self.iterations = iteration
 
