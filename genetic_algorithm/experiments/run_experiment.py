@@ -1,3 +1,5 @@
+import time
+
 from genetic_algorithm.ga import GeneticAlgorithmEncodedPermutations
 from genetic_algorithm.logging.compute_log_stats import compute_final_log_stats
 from genetic_algorithm.logging.logger import GALogger
@@ -13,6 +15,8 @@ def run_experiment(data_file_path, experiment_config):
     logger = GALogger(log_path)
     generation_stats_log_path = logger.get_generation_stats_log_path()
     runs_stats_log_path = logger.get_runs_stats_log_path()
+
+    experiment_config.log_config()
 
     for run_index in range(experiment_config.number_of_runs):
         ga = GeneticAlgorithmEncodedPermutations(vertecies_count, edges_count, adj_matrix,
@@ -30,7 +34,9 @@ def run_experiment(data_file_path, experiment_config):
                                                  logger=logger,
                                                  )
 
+        start = time.time()
         ga.execute(iterations=experiment_config.iterations)
+        end = time.time()
+        print(f"Time elapsed : {(end - start)}")
 
-    experiment_config.log_config()
     compute_final_log_stats(generation_stats_log_path, runs_stats_log_path)
