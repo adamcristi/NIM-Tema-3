@@ -1,14 +1,10 @@
 import time
 
-import numpy as np
-
-from evaluation.decode_to_permutation import decode_to_permutation
 from fitness.fitness_1 import fitness_1
 from genetic_algorithm.ga import GeneticAlgorithmEncodedPermutations
-from operators.selection.wheel_of_fortune import wheel_of_fortune_selection
-from operators.crossover.double_cut_crossover import double_cut_crossover
-from operators.crossover.single_cut_crossover import single_cut_crossover
-from operators.mutation.add_one_mutation import add_one_mutation
+from genetic_algorithm.operators.selection.wheel_of_fortune import wheel_of_fortune_selection
+from genetic_algorithm.operators.crossover.double_cut_crossover import double_cut_crossover
+from genetic_algorithm.operators.mutation.add_one_mutation import add_one_mutation
 from read_data.read_data import read_data_adj_matrix
 from evaluation.graph_coloring_evaluation import colors_count_eval_chromosome
 
