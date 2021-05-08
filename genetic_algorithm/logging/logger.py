@@ -13,6 +13,12 @@ class GALogger:
     def get_log_path(self):
         return self.log_path
 
+    def get_generation_stats_log_path(self):
+        return self.log_path[:-4] + "_generations_stats" + self.log_path[-4:]
+
+    def get_runs_stats_log_path(self):
+        return self.log_path[:-4] + "_runs_stats" + self.log_path[-4:]
+
     def log_generation(self, population, evaluation_values, fitness_values):
 
         with open(self.log_path, "a") as file:
@@ -27,3 +33,10 @@ class GALogger:
             file.write(":::")
             file.write(" ".join(map(str, fitness_values)))
             file.write("\n")
+
+    def log_run_end(self):
+        with open(self.log_path, "a") as file:
+            file.write("|||\n")
+
+        with open(self.get_generation_stats_log_path(), "a") as file:
+            file.write("|||\n")
