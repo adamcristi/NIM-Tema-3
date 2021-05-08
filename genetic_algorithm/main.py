@@ -9,7 +9,9 @@ from evaluation.graph_coloring_evaluation import colors_count_eval_chromosome
 from genetic_algorithm.experiments.run_experiment import run_experiment
 
 if __name__ == '__main__':
+
     data_file_path = "../data_files/queen5_5.col"
+
     experiment_config = ExperimentConfig(log_path=f"./logging_results/log_file_{time.time()}.txt",
                                          number_of_runs=30,
                                          iterations=3,
