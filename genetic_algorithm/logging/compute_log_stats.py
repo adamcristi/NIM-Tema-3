@@ -5,6 +5,10 @@ def get_stats(arr):
     return np.min(arr), np.max(arr), np.mean(arr), np.std(arr)
 
 
+# ================================================================================================
+# STATS FOR EACH GENERATION AND FOR EACH RUN
+# ================================================================================================
+
 def compute_log_stats_realtime(log_path, iteration, evaluation_values, fitness_values):
     new_log_path = log_path[:-4] + "_stats" + log_path[-4:]
     sep = "::"
@@ -54,7 +58,7 @@ def compute_final_log_stats_realtime(log_path):
     min_fitnesses_min, min_fitnesses_max, min_fitnesses_mean, min_fitnesses_std = get_stats(min_fitnesses)
 
     with open(stats_log_path, "a") as new_file:
-        new_file.write(f"GLOBAL|" +
+        new_file.write(f"RUN_FINAL|" +
                        f"eval_min:{min_evals_min}{sep}" +
                        f"eval_max:{min_evals_max}{sep}" +
                        f"eval_mean:{min_evals_mean}{sep}" +
@@ -109,7 +113,7 @@ def compute_log_stats(log_path):
     min_fitnesses_min, min_fitnesses_max, min_fitnesses_mean, min_fitnesses_std = get_stats(min_fitnesses)
 
     with open(new_log_path, "a") as new_file:
-        new_file.write(f"GLOBAL:" +
+        new_file.write(f"RUN_FINAL|" +
                        f"eval_min:{min_evals_min}{sep}" +
                        f"eval_max:{min_evals_max}{sep}" +
                        f"eval_mean:{min_evals_mean}{sep}" +
@@ -118,3 +122,8 @@ def compute_log_stats(log_path):
                        f"fitness_max:{min_fitnesses_max}{sep}" +
                        f"fitness_mean:{min_fitnesses_mean}{sep}" +
                        f"fitness_std:{min_fitnesses_std}\n")
+
+
+# ================================================================================================
+# STATS FOR ALL RUNS SAMPLE
+# ================================================================================================
