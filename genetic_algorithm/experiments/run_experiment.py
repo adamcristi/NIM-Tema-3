@@ -19,6 +19,7 @@ def run_experiment(data_file_path, experiment_config):
     experiment_config.log_config()
 
     for run_index in range(experiment_config.number_of_runs):
+        print(f"Run : {run_index}")
         ga = GeneticAlgorithmEncodedPermutations(vertecies_count, edges_count, adj_matrix,
                                                  pop_size=experiment_config.pop_size,
                                                  evaluation_function=experiment_config.evaluation_function,

@@ -31,17 +31,17 @@ if __name__ == '__main__':
     for path in data_file_path:
         experiment_config = ExperimentConfig(log_path=f"./logging_results/log_file_{time.time()}.txt",
                                              number_of_runs=30,
-                                             iterations=500,
-                                             pop_size=50,
+                                             iterations=1000,
+                                             pop_size=100,
                                              evaluation_function=eval_1,
                                              evaluation_kwargs={},
                                              fitness_function=fitness_1,
-                                             fitness_kwargs={"pressure": 3},
+                                             fitness_kwargs={"pressure": 4},
                                              selection_function=wheel_of_fortune_selection,
                                              selection_kwargs={},
                                              crossover_function=double_cut_crossover,
                                              crossover_kwargs={"crossover_rate": 0.4},
                                              mutation_function=add_one_mutation,
-                                             mutation_kwargs={"mutation_rate": 0.01},
+                                             mutation_kwargs={"mutation_rate": 0.02},
                                              )
         run_experiment(path, experiment_config)
