@@ -1,5 +1,8 @@
 import numpy as np
 
+from genetic_algorithm.logging.compute_log_stats import compute_log_stats_realtime, compute_final_log_stats_realtime
+from genetic_algorithm.logging.logger import GALogger
+
 
 class GeneticAlgorithmEncodedPermutations:
     """
@@ -26,8 +29,8 @@ class GeneticAlgorithmEncodedPermutations:
                  evaluation_kwargs=None,
                  fitness_function=None,
                  fitness_args=None,
-                 fitness_kwargs=None
-                 ):
+                 fitness_kwargs=None,
+                 logging_path=None):
 
         self.pop_size = pop_size
         self.population = []
@@ -66,6 +69,8 @@ class GeneticAlgorithmEncodedPermutations:
         # Initialize the population
         self.init_pop()
 
+        self.logger = GALogger(logging_path)
+
     def init_pop(self):
         # self.population = np.array([np.random.permutation(self.vertecies_count) for _ in range(self.pop_size)])
         self.population = np.array([
@@ -96,9 +101,8 @@ class GeneticAlgorithmEncodedPermutations:
             # Compute evaluation values
             self.evaluation_values = self.eval_population()
 
-            # print(np.where(self.evaluation_values == np.min(self.evaluation_values)))
+            # Print current min eval
             curr_min = np.min(self.evaluation_values)
-            # print(self.population[np.where(self.evaluation_values == curr_min)][0], " ", curr_min)
             print(curr_min)
             if global_min > curr_min:
                 global_min = curr_min
@@ -116,6 +120,9 @@ class GeneticAlgorithmEncodedPermutations:
             self.population = self.mutation(self.population,
                                             *self.mutation_args, **self.mutation_kwargs)
             # Logging
-            # ....................
+            self.logger.log_generation(self.population, self.evaluation_values, self.fitness_values)
+            compute_log_stats_realtime(self.logger.get_log_path(), iteration,
+                                       self.evaluation_values, self.fitness_values)
 
+        compute_final_log_stats_realtime(self.logger.get_log_path())
         print(global_min)

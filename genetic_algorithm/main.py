@@ -9,9 +9,9 @@ from read_data.read_data import read_data_adj_matrix
 from evaluation.graph_coloring_evaluation import colors_count_eval_chromosome
 
 if __name__ == '__main__':
-    # vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("queen5_5.col")
+    vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("queen5_5.col")
     # vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("queen13_13.col")
-    vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("inithx.i.1.col")
+    # vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("inithx.i.1.col")
     # vertecies_count, edges_count, adj_matrix = read_data_adj_matrix("miles1500.col")
 
     ga = GeneticAlgorithmEncodedPermutations(vertecies_count, edges_count, adj_matrix,
