@@ -1,0 +1,10 @@
+Iteration 0: global_minimum_number_colours_used = 9 ;    number_iterations_to_find_global_minimum = 0 ;    current_iteration_minimum_number_colours_used = 9 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 1: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 2: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 3: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 4: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 5: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 6: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 7: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 8: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;
+Iteration 9: global_minimum_number_colours_used = 8 ;    number_iterations_to_find_global_minimum = 1 ;    current_iteration_minimum_number_colours_used = 8 ;    number_ants_to_find_current_iteration_minimum = 0 ;

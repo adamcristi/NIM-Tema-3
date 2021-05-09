@@ -1,8 +1,10 @@
 import time
 from read_data.read_data import read_data_adj_matrix
 #from ant_colony_optimization.acs import AntColonySystem
+#from ant_colony_optimization.acs_hybrid import AntColonySystem
 #from ant_colony_optimization.acs_2 import AntColonySystem
-from ant_colony_optimization.acs_3 import AntColonySystem
+#from ant_colony_optimization.acs_3 import AntColonySystem
+from ant_colony_optimization.acs_3_hybrid import AntColonySystem
 
 if __name__ == "__main__":
 
@@ -19,36 +21,43 @@ if __name__ == "__main__":
 
     # acs - 1 iter: 19 sec; 10 iter: 187 sec ; 49 best - 49 gasit
     # acs3 - 10 iter: 6.1 sec ; 49 best - 49 gasit
-    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/old/zeroin.i.1.col")
+    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/old/zeroin.i.1.col")
 
     # Fisiere testare
 
     # acs - 10 iter: 0.07 sec ; 4 best - 4 gasit
     # acs3 - 10 iter: 0.04 sec ; 4 best - 4 gasit
+    #dataset = 'myciel3.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/myciel3.col")
 
     # acs - 10 iter: 140.9 sec ; 8 best - 8 gasit
     # acs3 - 10 iter: 4.8 sec ; 8 best - 8 gasit
+    #dataset = 'myciel7.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/myciel7.col")
 
     # acs - 10 iter: 96.8 sec ; 13 best - 16/17 gasit
     # acs3 - 10 iter: 4.1 sec ; 13 best - 19/20 gasit
+    #dataset = 'queen13_13.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/queen13_13.col")
 
     # acs - 10 iter: 132.8 sec ; 31 best - 31 gasit
     # acs3 - 10 iter: 4.6 sec ; 31 best - 31 gasit
-    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/mulsol.i.5.col")
+    dataset = 'mulsol.i.5.col'
+    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/mulsol.i.5.col")
 
     # acs - 1 iter: 187 sec; 2 iter: 367 sec; 10 iter: 1779 sec ; 15 best - 16 gasit
     # acs3 - 10 iter: 25.9 sec ; 15 best - 17 gasit
+    #dataset = 'le450_15b.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/le450_15b.col")
 
     # acs - 10 iter: ? ; 65 best - ? gasit
     # acs3 - 10 iter: 33.5 sec ; 65 best - 65 gasit
+    #dataset = 'fpsol2.i.1.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/fpsol2.i.1.col")
 
     # acs - 1 iter: 504 sec; 10 iter: ? ; 31 best - ? gasit
     # acs3 - 10 iter: 53 sec ; 31 best - 31 gasit
+    #dataset = 'inithx.i.2.col'
     #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/inithx.i.2.col")
 
     print(vertices_count)
@@ -67,6 +76,17 @@ if __name__ == "__main__":
     #
     #acs.execute()
 
+    #acs_hybrid = AntColonySystem(number_vertices=vertices_count,
+    #                             adjacency_matrix=adjacency_matrix,
+    #                             number_ants=10,
+    #                             number_iterations=10,
+    #                             a=1,
+    #                             b=3,
+    #                             r=0.9,
+    #                             evaporation_coefficient=0.8)
+    #
+    #acs_hybrid.execute()
+
     #acs_2 = AntColonySystem(number_vertices=vertices_count,
     #                      adjacency_matrix=adjacency_matrix,
     #                      number_ants=10,
@@ -76,12 +96,24 @@ if __name__ == "__main__":
     #
     #acs_2.execute()
 
-    acs_3 = AntColonySystem(number_vertices=vertices_count,
-                            adjacency_matrix=adjacency_matrix,
-                            number_ants=10,
-                            number_iterations=10,
-                            a=1,
-                            b=1,
-                            r=0.5)
+    #acs_3 = AntColonySystem(number_vertices=vertices_count,
+    #                        adjacency_matrix=adjacency_matrix,
+    #                        number_ants=10,
+    #                        number_iterations=10,
+    #                        a=1,
+    #                        b=1,
+    #                        r=0.5)
+    #
+    #acs_3.execute()
 
-    acs_3.execute()
+    acs_3_hybrid = AntColonySystem(name_dataset=dataset,
+                                   number_runs=30,
+                                   number_vertices=vertices_count,
+                                   adjacency_matrix=adjacency_matrix,
+                                   number_ants=10,
+                                   number_iterations=10,
+                                   a=1,
+                                   b=1,
+                                   r=0.5)
+
+    acs_3_hybrid.execute()

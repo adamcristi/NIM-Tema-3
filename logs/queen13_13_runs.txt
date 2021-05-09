@@ -1,0 +1,33 @@
+Run 0: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 2 ;    
+Run 1: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 2: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 3 ;    
+Run 3: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 4: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 4 ;    
+Run 5: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 3 ;    
+Run 6: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 2 ;    
+Run 7: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 8: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 9: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 6 ;    
+Run 10: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 11: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 12: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 2 ;    
+Run 13: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 1 ;    
+Run 14: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 8 ;    
+Run 15: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 16: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 7 ;    
+Run 17: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 18: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 19: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 20: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 21: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 22: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 23: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 24: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 25: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 26: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 27: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 1 ;    
+Run 28: global_minimum_number_colours_used = 20 ;    number_iterations_to_find_global_minimum = 0 ;    
+Run 29: global_minimum_number_colours_used = 19 ;    number_iterations_to_find_global_minimum = 7 ;    
+
+
+Runs: min_coverage_global_best = 19 ;    max_coverage_global_best = 20 ;    mean_coverage_global_best = 19.566666666666666 ;    std_coverage_global_best = 0.4955356249106168 ;    

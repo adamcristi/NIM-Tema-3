@@ -5,17 +5,17 @@ import time
 
 
 class Ant:
-    def __init__(self, nodes_graph, colours_nodes_graph, degrees_nodes_graph, adjacency_matrix, matrix_pheromones_trails,
-                 a, b, r, start=None):
+    def __init__(self, nodes_graph, colours_nodes_graph, adjacency_matrix, matrix_pheromones_trails, a, b, r,
+                 evaporation_coefficient, start=None):
 
         self.nodes = copy.deepcopy(nodes_graph)
         self.colours_nodes = colours_nodes_graph
-        self.degrees_nodes = degrees_nodes_graph
         self.matrix_adjacency = copy.deepcopy(adjacency_matrix)
         self.matrix_pheromones_trails = matrix_pheromones_trails
         self.alpha = a
         self.beta = b
         self.ro = r
+        self.coef_evap = evaporation_coefficient
 
         if start is None:
             self.current_node = np.random.choice(self.nodes)
@@ -38,11 +38,12 @@ class Ant:
         self.visited_nodes.append(node)
         self.unvisited_nodes.remove(node)
 
-    def get_greedy_force_node(self, node):
-        if self.degrees_nodes[node] == 0:
-            return 0
-        else:
-            return 1 / self.degrees_nodes[node]
+    def get_greedy_force_node(self, node):  # DSAT
+        colours_neighbors_node = []
+        for adj_node in range(self.matrix_adjacency.shape[0]):
+            if self.matrix_adjacency[node][adj_node] == 1:
+                colours_neighbors_node.append(self.colours_assigned[adj_node])
+        return len(set(colours_neighbors_node))
 
     def get_pheromone_trail_node(self, node, adjacency_node):
         return self.matrix_pheromones_trails[node, adjacency_node]
@@ -54,7 +55,6 @@ class Ant:
             return self.unvisited_nodes[0]
         else:
             heuristic_values = []
-
             for possible_node in self.unvisited_nodes:
                 greedy_force_node = self.get_greedy_force_node(node=possible_node)
                 pheromone_trail_node = self.get_pheromone_trail_node(node=self.current_node,
@@ -63,7 +63,6 @@ class Ant:
 
             max_val_heuristic = np.max(heuristic_values)
             best_possible_nodes = []
-
             for index_node, node in enumerate(self.unvisited_nodes):
                 if heuristic_values[index_node] >= max_val_heuristic:
                     best_possible_nodes.append(node)
@@ -86,21 +85,50 @@ class Ant:
                     self.assign_colour(node=next_node, colour=colour)
                     break
 
+            self.num_colours_used = len(set(self.colours_assigned.values()))
             self.current_node = next_node
 
-        self.num_colours_used = len(set(self.colours_assigned.values()))
-
-    def get_matrix_delta_pheromones_trails(self):
-        matrix_delta_pheromones_trails = np.zeros(self.matrix_pheromones_trails.shape, dtype=np.float)
+    def get_matrix_pheromones_trails(self):
+        new_matrix_pheromones_trails = np.zeros(self.matrix_pheromones_trails.shape, dtype=np.float)
         for node_1 in self.nodes:
-            if self.colours_assigned[node_1] is not None:
-                matrix_delta_pheromones_trails[node_1, :] = (1 - self.ro) / self.num_colours_used
+            for node_2 in self.nodes:
+                if self.colours_assigned[node_1] == self.colours_assigned[node_2]:
+                    new_matrix_pheromones_trails[node_1][node_2] = 1
 
-        return matrix_delta_pheromones_trails
+        return new_matrix_pheromones_trails
 
+    def kempe_chain_local_search(self):
+        index_first_node = np.random.choice(len(self.visited_nodes))
+        first_node = self.visited_nodes[index_first_node]
+        colour_first_node = self.colours_assigned[first_node]
+
+        index_second_node = np.random.choice(np.where(self.matrix_adjacency[first_node, :] == 1)[0])
+        second_node = self.visited_nodes[index_second_node]
+        colour_second_node = self.colours_assigned[second_node]
+
+        update_colours_to_nodes = [first_node, second_node]
+        index_check_node = 0
+
+        while index_check_node < len(update_colours_to_nodes):
+            current_node = update_colours_to_nodes[index_check_node]
+
+            for adj_node in range(self.matrix_adjacency.shape[0]):
+                if self.matrix_adjacency[current_node][adj_node] == 1:
+                    if self.colours_assigned[adj_node] == colour_first_node or self.colours_assigned[adj_node] == colour_second_node:
+                        if adj_node not in update_colours_to_nodes:
+                            update_colours_to_nodes.append(adj_node)
+
+            index_check_node += 1
+
+        for node in update_colours_to_nodes:
+            if self.colours_assigned[node] == colour_first_node:
+                self.colours_assigned[node] = colour_second_node
+            else:
+                self.colours_assigned[node] = colour_first_node
 
 class AntColonySystem:
-    def __init__(self, number_vertices, adjacency_matrix, number_ants, number_iterations, a, b, r):
+    def __init__(self, number_vertices, adjacency_matrix, number_ants, number_iterations, a, b, r,
+                 evaporation_coefficient):
         self.num_nodes = number_vertices
         self.matrix_adjacency = adjacency_matrix
         self.num_ants = number_ants
@@ -108,10 +136,9 @@ class AntColonySystem:
         self.alpha = a
         self.beta = b
         self.ro = r
+        self.coef_evap = evaporation_coefficient
 
         self.nodes = [node for node in range(number_vertices)]
-
-        self.degree_nodes = None
 
         self.colour_nodes = None
         self.initialize_colours_nodes()
@@ -128,35 +155,28 @@ class AntColonySystem:
         self.global_best_ant = None
 
     def initialize_colours_nodes(self):
-        self.degree_nodes = np.sum(self.matrix_adjacency, axis=1)
-        counter_maximum_degree_nodes = int(np.max(self.degree_nodes))
+        counter_maximum_degree_nodes = int(np.max(np.sum(self.matrix_adjacency, axis=1)))
         self.colour_nodes = np.array([colour for colour in range(counter_maximum_degree_nodes)])
 
     def initialize_pheromones_trails(self):
-        self.matrix_pheromones_trails = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float)
-        self.matrix_pheromones_trails[:, :] = (self.num_nodes ** 2) / self.ro
+        self.matrix_pheromones_trails = np.ones((self.num_nodes, self.num_nodes), dtype=np.float)
+        self.matrix_pheromones_trails -= self.matrix_adjacency
 
     def create_colony(self):
         self.ants_colony = [Ant(nodes_graph=self.nodes,
                                 colours_nodes_graph=self.colour_nodes,
-                                degrees_nodes_graph=self.degree_nodes,
                                 adjacency_matrix=self.matrix_adjacency,
                                 matrix_pheromones_trails=self.matrix_pheromones_trails,
                                 a=self.alpha,
                                 b=self.beta,
-                                r=self.ro) for _ in range(self.num_ants)]
+                                r=self.ro,
+                                evaporation_coefficient=self.coef_evap) for _ in range(self.num_ants)]
 
     def apply_evaporation(self):
-        self.matrix_pheromones_trails *= self.ro
+        self.matrix_pheromones_trails *= (1 - self.coef_evap)
 
     def apply_intensification(self):
-        self.matrix_pheromones_trails += self.current_best_ant.get_matrix_delta_pheromones_trails()
-
-        max_pheromone_trail = 1 / (1 - self.ro * self.current_best_ant.num_colours_used)
-        min_pheromone_trail = 0.087 * max_pheromone_trail
-
-        self.matrix_pheromones_trails = np.where(self.matrix_pheromones_trails > max_pheromone_trail, max_pheromone_trail, self.matrix_pheromones_trails)
-        self.matrix_pheromones_trails = np.where(self.matrix_pheromones_trails < min_pheromone_trail, min_pheromone_trail, self.matrix_pheromones_trails)
+        self.matrix_pheromones_trails += self.current_best_ant.get_matrix_pheromones_trails()
 
     def get_current_min_number_colours_used_and_best_ant(self):
         self.current_min_num_colours_used = None
@@ -182,6 +202,9 @@ class AntColonySystem:
 
             for ant in self.ants_colony:
                 ant.colorize()
+
+            for ant in self.ants_colony:
+                ant.kempe_chain_local_search()
 
             self.get_current_min_number_colours_used_and_best_ant()
 
