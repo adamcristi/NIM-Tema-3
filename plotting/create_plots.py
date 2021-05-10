@@ -13,15 +13,15 @@ import matplotlib.pyplot as plt
 
 #log_name = 'best_run_myciel3.txt'
 #log_name = 'best_run_myciel7.txt'
-log_name = 'best_run_queen13_13.txt'
-#log_name = 'mulsol.i.5.col'
-#log_name = 'le450_15b.col'
-#log_name = 'fpsol2.i.1.col'
-#log_name = 'inithx.i.2.col'
+#log_name = 'best_run_queen13_13.txt'
+#log_name = 'best_run_mulsol.i.5.txt'
+#log_name = 'best_run_le450_15b.txt'
+#log_name = 'best_run_fpsol2.i.1.txt'
+log_name = 'best_run_inithx.i.2.txt'
 
 # LOGS_PATH is a must to be the absolute path to the logs
-LOGS_PATH = os.path.join(os.path.split(os.path.abspath(os.getcwd()))[0], 'plots')
-PLOTS_PATH = os.path.join(os.path.split(os.path.abspath(os.getcwd()))[0], 'plots')
+LOGS_PATH = os.path.join(os.path.split(os.path.abspath(os.getcwd()))[0], 'plotting', 'logs_plots')
+PLOTS_PATH = os.path.join(os.path.split(os.path.abspath(os.getcwd()))[0], 'plotting', 'plots')
 
 
 def filter_data(value):
@@ -78,8 +78,8 @@ def create_plot():
 
     #plt.setp(ax.get_xticklabels()[-1], visible=False)
     plt.title(title_plot, fontsize=14)
-    #plt.savefig(os.path.join(PLOTS_PATH, log_name + "_plot.png"))
-    plt.show()
+    plt.savefig(os.path.join(PLOTS_PATH, log_name + "_plot.png"))
+    #plt.show()
 
 
 # Create plot

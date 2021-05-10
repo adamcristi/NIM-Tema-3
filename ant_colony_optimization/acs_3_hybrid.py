@@ -369,6 +369,9 @@ class AntColonySystem:
             else:
                 start = time.time()
 
+            self.matrix_pheromones_trails = None
+            self.initialize_pheromones_trails()
+
             self.global_min_num_colours_used = None
             self.global_best_ant = None
             self.number_iterations_to_find_min = None

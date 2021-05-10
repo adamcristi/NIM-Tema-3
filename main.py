@@ -42,8 +42,8 @@ if __name__ == "__main__":
 
     # acs - 10 iter: 132.8 sec ; 31 best - 31 gasit
     # acs3 - 10 iter: 4.6 sec ; 31 best - 31 gasit
-    dataset = 'mulsol.i.5.col'
-    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/mulsol.i.5.col")
+    #dataset = 'mulsol.i.5.col'
+    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/mulsol.i.5.col")
 
     # acs - 1 iter: 187 sec; 2 iter: 367 sec; 10 iter: 1779 sec ; 15 best - 16 gasit
     # acs3 - 10 iter: 25.9 sec ; 15 best - 17 gasit
@@ -57,8 +57,8 @@ if __name__ == "__main__":
 
     # acs - 1 iter: 504 sec; 10 iter: ? ; 31 best - ? gasit
     # acs3 - 10 iter: 53 sec ; 31 best - 31 gasit
-    #dataset = 'inithx.i.2.col'
-    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/inithx.i.2.col")
+    dataset = 'inithx.i.2.col'
+    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/inithx.i.2.col")
 
     print(vertices_count)
     print(edges_count)
@@ -106,14 +106,21 @@ if __name__ == "__main__":
     #
     #acs_3.execute()
 
+    #if dataset == 'queen13_13':
+    #    alpha = 2
+    #    beta = 4
+    #else:
+    alpha = 1
+    beta = 1
+
     acs_3_hybrid = AntColonySystem(name_dataset=dataset,
                                    number_runs=30,
                                    number_vertices=vertices_count,
                                    adjacency_matrix=adjacency_matrix,
                                    number_ants=10,
-                                   number_iterations=10,
-                                   a=1,
-                                   b=1,
+                                   number_iterations=20,
+                                   a=alpha,
+                                   b=beta,
                                    r=0.5)
 
     acs_3_hybrid.execute()
