@@ -4,7 +4,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib
 
+matplotlib.use('TkAgg')
+matplotlib.style.use('seaborn-darkgrid')
 
 def process_data(generations_path):
     # generations_path = log_path[:-4] + "_generations_stats" + log_path[-4:]
@@ -52,10 +55,22 @@ def process_data(generations_path):
                 global_min = iteration
                 global_min_run_index = run_index
 
-    print(global_min)
-    print(global_min_run_index)
-    print(np.array(min_evals).shape)
+    # print(global_min)
+    # print(global_min_run_index)
+    # print(np.array(min_evals).shape)
     return global_min_run_index, global_min, min_evals[global_min_run_index]
+
+
+def get_global_mins(min_vals):
+    global_mins = []
+
+    min_value = min_vals[0]
+    for elem in min_vals:
+        if elem < min_value:
+            min_value = elem
+        global_mins += [min_value]
+
+    return global_mins
 
 
 def create_plots(generations_log_paths):
@@ -65,24 +80,61 @@ def create_plots(generations_log_paths):
         log_name = gen_path.split("/")[3]
 
         run_index, min_val, min_vals = process_data(gen_path)
+        global_mins = get_global_mins(min_vals)
 
-        data_df = np.array([np.arange(len(min_vals))]).reshape(len(min_vals), 1)
-        data_df = np.append(data_df, np.array([min_vals]).reshape(len(min_vals), 1), axis=1)
+        figure = plt.figure(figsize=(7.1, 4.1))
+        ax = figure.add_subplot()
 
-        df = pd.DataFrame(data=data_df,
-                          columns=["Iterations", "Best Chromosome Minimum Color"])
+        ax.plot(np.arange(len(min_vals)), global_mins, color='tab:blue', linewidth=2)
+        ax.plot(np.arange(len(min_vals)), min_vals, color='orange', linewidth=0.8)
 
-        figure = plt.figure(figsize=(5.1, 4.1))
-        sns.set_style("darkgrid")
-        # sns.scatterplot(x=np.arange(len(min_vals))[::10], y=min_vals[::10], hue=df.loc[::10, "All Samples Covered"], s=150)
-        # sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5], color='orange')
-        sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5])
-        plt.xlabel("Iterations", fontsize=10)
-        plt.ylabel("Minimum Colors Count", fontsize=10)
-        plt.tick_params(labelsize=9)
+        ax.lines[1].set_linestyle("--")
+
+        ax.set_xlabel('Iterations', fontsize=12)
+        ax.set_ylabel('Minimum Colours Count', fontsize=12)
+
+        ax.legend(["Minimum Global", "Minimum Iteration"], frameon=True)
+
+        ax.set_xticks(np.arange(0, len(global_mins), step=50))
+        ax.set_yticks(np.arange(np.min(min_vals), np.max(min_vals) + 1, step=2))
+
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelsize=11)
+
+        # plt.setp(ax.get_xticklabels()[-1], visible=False)
         plt.title(title, fontsize=14)
         plt.savefig(os.path.join(PLOTS_PATH, log_name + "_plot.png"))
         # plt.show()
+
+        # data_df = np.array([np.arange(len(min_vals))]).reshape(len(min_vals), 1)
+        # data_df = np.append(data_df, np.array([min_vals]).reshape(len(min_vals), 1), axis=1)
+        # data_df = np.append(data_df, np.array([global_mins]).reshape(len(min_vals), 1), axis=1)
+        #
+        # df = pd.DataFrame(data=data_df,
+        #                   columns=["Iterations", "Best Chromosome Minimum Color", "a"])
+        #
+        # figure = plt.figure(figsize=(5.1, 4.1))
+        # sns.set_style("darkgrid")
+        # # sns.scatterplot(x=np.arange(len(min_vals))[::10], y=min_vals[::10], hue=df.loc[::10, "All Samples Covered"], s=150)
+        # # sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5], color='orange')
+        #
+        # sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5], hue=df.loc[::5, "a"])
+        # plt.xlabel("Iterations", fontsize=10)
+        # plt.ylabel("Best Chromosome Minimum Candidates", fontsize=10)
+        # plt.tick_params(axis='y', labelsize=12)
+        # plt.tick_params(axis='x', labelsize=11)
+        # plt.title(title, fontsize=14)
+        # plt.savefig(os.path.join(PLOTS_PATH, log_name + "_plot.png"))
+        #
+        # # sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5])
+        # # plt.xlabel("Iterations", fontsize=10)
+        # # plt.ylabel("Minimum Colors Count", fontsize=10)
+        # # # plt.tick_params(labelsize=9)
+        # # plt.tick_params(axis='y', labelsize=12)
+        # # plt.tick_params(axis='x', labelsize=11)
+        # # plt.title(title, fontsize=14)
+        # # plt.savefig(os.path.join(PLOTS_PATH, log_name + "_plot.png"))
+        # # # plt.show()
 
 
 if __name__ == '__main__':
@@ -110,7 +162,6 @@ if __name__ == '__main__':
     #         ("queen13_13.col (169 vertecies, 6656 edges), 13-min-coloring",
     #          "../logging_results/experiments_results/queen13_13/log_file_1620517639.1300583_generations_stats.txt"),
     #         ]
-
 
     title = "Genetic Algorithm"
     logs = [(title,
