@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def random_choice(population, mutation_rate=0.3, mutation_choosing_rate=-1):
+def random_choice(population, mutation_rate=0.01, mutation_choosing_rate=-1):
     pop_size, chromosome_size = population.shape
 
     if mutation_choosing_rate > 0:

@@ -72,7 +72,7 @@ def create_plots(generations_log_paths):
         df = pd.DataFrame(data=data_df,
                           columns=["Iterations", "Best Chromosome Minimum Color"])
 
-        figure = plt.figure(figsize=(7.1, 6.1))
+        figure = plt.figure(figsize=(5.1, 4.1))
         sns.set_style("darkgrid")
         # sns.scatterplot(x=np.arange(len(min_vals))[::10], y=min_vals[::10], hue=df.loc[::10, "All Samples Covered"], s=150)
         # sns.lineplot(x=np.arange(len(min_vals))[::5], y=min_vals[::5], color='orange')
@@ -89,25 +89,49 @@ if __name__ == '__main__':
     log_data = r"C:\Users\alexd\PycharmProjects\nim_tema_4_ga\genetic_algorithm\logging_results\experiments_results\myciel7\log_file_1620517618.5245903_generations_stats.txt"
     # process_data(log_data)
 
-    logs = [("fpsol2.i.1.col (496 vertecies, 11654 edges), 65-min-coloring",
+    # logs = [("fpsol2.i.1.col (496 vertecies, 11654 edges), 65-min-coloring",
+    #          "../logging_results/experiments_results/fpsol2.i.1/log_file_1620514296.397173_generations_stats.txt"),
+    #
+    #         ("inithx.i.2.col (645 vertecies, 13979 edges), 31-min-coloring",
+    #          "../logging_results/experiments_results/inithx.i.2/log_file_1620514231.0150423_generations_stats.txt"),
+    #
+    #         ("le450_15b.col (450 vertecies, 8169 edges), 15-min-coloring",
+    #          "../logging_results/experiments_results/le450_15b/log_file_1620514193.4046335_generations_stats.txt"),
+    #
+    #         ("mulsol.i.5.col (186 vertecies, 3973 edges), 31-min-coloring",
+    #          "../logging_results/experiments_results/mulsol.i.5/log_file_1620517704.466422_generations_stats.txt"),
+    #
+    #         ("myciel3.col(11 vertecies, 20 edges), 4-min-coloring",
+    #          "../logging_results/experiments_results/myciel3/log_file_1620564501.4263854_generations_stats.txt"),
+    #
+    #         ("myciel7.col (191 vertecies, 2360 edges), 8-min-coloring",
+    #          "../logging_results/experiments_results/myciel7/log_file_1620517618.5245903_generations_stats.txt"),
+    #
+    #         ("queen13_13.col (169 vertecies, 6656 edges), 13-min-coloring",
+    #          "../logging_results/experiments_results/queen13_13/log_file_1620517639.1300583_generations_stats.txt"),
+    #         ]
+
+
+    title = "Genetic Algorithm"
+    logs = [(title,
              "../logging_results/experiments_results/fpsol2.i.1/log_file_1620514296.397173_generations_stats.txt"),
 
-            ("inithx.i.2.col (645 vertecies, 13979 edges), 31-min-coloring",
+            (title,
              "../logging_results/experiments_results/inithx.i.2/log_file_1620514231.0150423_generations_stats.txt"),
 
-            ("le450_15b.col (450 vertecies, 8169 edges), 15-min-coloring",
+            (title,
              "../logging_results/experiments_results/le450_15b/log_file_1620514193.4046335_generations_stats.txt"),
 
-            ("mulsol.i.5.col (186 vertecies, 3973 edges), 31-min-coloring",
+            (title,
              "../logging_results/experiments_results/mulsol.i.5/log_file_1620517704.466422_generations_stats.txt"),
 
-            ("myciel3.col(11 vertecies, 20 edges), 4-min-coloring",
+            (title,
              "../logging_results/experiments_results/myciel3/log_file_1620564501.4263854_generations_stats.txt"),
 
-            ("myciel7.col (191 vertecies, 2360 edges), 8-min-coloring",
+            (title,
              "../logging_results/experiments_results/myciel7/log_file_1620517618.5245903_generations_stats.txt"),
 
-            ("queen13_13.col (169 vertecies, 6656 edges), 13-min-coloring",
+            (title,
              "../logging_results/experiments_results/queen13_13/log_file_1620517639.1300583_generations_stats.txt"),
             ]
 

@@ -8,7 +8,7 @@ from read_data.read_data import read_data_adj_matrix
 
 def run_experiment(data_file_path, experiment_config):
 
-    vertecies_count, edges_count, adj_matrix = read_data_adj_matrix(data_file_path)
+    vertices_count, edges_count, adj_matrix = read_data_adj_matrix(data_file_path)
 
     log_path = experiment_config.log_path
 
@@ -20,7 +20,7 @@ def run_experiment(data_file_path, experiment_config):
 
     for run_index in range(experiment_config.number_of_runs):
         print(f"Run : {run_index}")
-        ga = GeneticAlgorithmEncodedPermutations(vertecies_count, edges_count, adj_matrix,
+        ga = GeneticAlgorithmEncodedPermutations(vertices_count, edges_count, adj_matrix,
                                                  pop_size=experiment_config.pop_size,
                                                  evaluation_function=experiment_config.evaluation_function,
                                                  evaluation_kwargs=experiment_config.evaluation_kwargs,
