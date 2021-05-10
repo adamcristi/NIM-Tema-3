@@ -1,0 +1,14 @@
+Number of runs: 30
+Iterations: 500
+Population size: 50
+Evaluation function: eval_1
+Evaluation function arguments: {}
+Fitness function: fitness_1
+Fitness function arguments: {'pressure': 4}
+Selection function: wheel_of_fortune_selection
+Selection function arguments: {}
+Crossover function: double_cut_crossover
+Crossover function arguments: {'crossover_rate': 0.4}
+Mutation function: random_choice
+Mutation function arguments: {'mutation_rate': 0.01}
+Dataset : queen13_13.col
