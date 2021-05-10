@@ -103,20 +103,94 @@ class Ant:
 
         return matrix_delta_pheromones_trails
 
+    def find_new_colour_assignment(self, node):
+        new_colours_assigned = copy.deepcopy(self.colours_assigned)
+
+        colours_adjs_node = []
+        for adj_node in range(self.matrix_adjacency.shape[0]):
+            if self.matrix_adjacency[node][adj_node] == 1:
+                colours_adjs_node.append(new_colours_assigned[adj_node])
+
+        for colour in range(self.num_colours_used - 1):
+            if colour not in colours_adjs_node and colour != new_colours_assigned[colour]:
+                new_colours_assigned[node] = colour
+                break
+
+        return new_colours_assigned
+
     def local_search(self):
+        best_colours_assigned = copy.deepcopy(self.colours_assigned)
+
         for node, assigned_colour in self.colours_assigned.items():
             if assigned_colour == self.num_colours_used - 1:
-                colours_adj_nodes = []
+                adj_nodes = []
                 for adj_node in range(self.matrix_adjacency.shape[0]):
                     if self.matrix_adjacency[node][adj_node] == 1:
-                        colours_adj_nodes.append(self.colours_assigned[adj_node])
+                        adj_nodes.append(adj_node)
 
-                for colour in range(self.num_colours_used - 1):
-                    if colour not in colours_adj_nodes:
-                        self.colours_assigned[node] = colour
-                        break
+                for chosen_node in adj_nodes:
+                    new_colours_assigned = self.find_new_colour_assignment(node=chosen_node)
 
-        self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
+                    colours_adjs_node = []
+                    for adj_node in adj_nodes:
+                        colours_adjs_node.append(new_colours_assigned[adj_node])
+
+                    for colour in range(self.num_colours_used - 1):
+                        if colour not in colours_adjs_node:
+                            new_colours_assigned[node] = colour
+                            break
+
+                    new_num_colours_used = len(set([value for value in new_colours_assigned.values() if value is not None]))
+
+                    if new_num_colours_used < self.num_colours_used:
+                        best_colours_assigned = new_colours_assigned
+
+        self.num_colours_used = len(set([value for value in best_colours_assigned.values() if value is not None]))
+
+        #for node, assigned_colour in self.colours_assigned.items():
+        #    if assigned_colour == self.num_colours_used - 1:
+        #        adj_nodes = []
+        #        for adj_node in range(self.matrix_adjacency.shape[0]):
+        #            if self.matrix_adjacency[node][adj_node] == 1:
+        #                adj_nodes.append(adj_node)
+        #
+        #        chosen_node = np.random.choice(adj_nodes)
+        #        colours_adjs_chosen_node = []
+        #        for adj_node in range(self.matrix_adjacency.shape[0]):
+        #            if self.matrix_adjacency[chosen_node][adj_node] == 1:
+        #                colours_adjs_chosen_node.append(self.colours_assigned[adj_node])
+        #
+        #        for colour in range(self.num_colours_used - 1):
+        #            if colour not in colours_adjs_chosen_node and colour != self.colours_assigned[chosen_node]:
+        #                self.colours_assigned[chosen_node] = colour
+        #                break
+        #
+        #        colours_adjs_node = []
+        #        for adj_node in range(self.matrix_adjacency.shape[0]):
+        #            if self.matrix_adjacency[node][adj_node] == 1:
+        #                colours_adjs_node.append(self.colours_assigned[adj_node])
+        #
+        #        for colour in range(self.num_colours_used - 1):
+        #            if colour not in colours_adjs_node:
+        #                self.colours_assigned[node] = colour
+        #                break
+        #
+        #self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
+
+
+        #for node, assigned_colour in self.colours_assigned.items():
+        #    if assigned_colour == self.num_colours_used - 1:
+        #        colours_adj_nodes = []
+        #        for adj_node in range(self.matrix_adjacency.shape[0]):
+        #            if self.matrix_adjacency[node][adj_node] == 1:
+        #                colours_adj_nodes.append(self.colours_assigned[adj_node])
+        #
+        #        for colour in range(self.num_colours_used - 1):
+        #            if colour not in colours_adj_nodes:
+        #                self.colours_assigned[node] = colour
+        #                break
+        #
+        #self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
 
     def kempe_chain_interchange(self, first_node, second_node):
         colour_first_node = self.colours_assigned[first_node]

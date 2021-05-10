@@ -47,8 +47,8 @@ if __name__ == "__main__":
 
     # acs - 1 iter: 187 sec; 2 iter: 367 sec; 10 iter: 1779 sec ; 15 best - 16 gasit
     # acs3 - 10 iter: 25.9 sec ; 15 best - 17 gasit
-    #dataset = 'le450_15b.col'
-    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/le450_15b.col")
+    dataset = 'le450_15b.col'
+    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/le450_15b.col")
 
     # acs - 10 iter: ? ; 65 best - ? gasit
     # acs3 - 10 iter: 33.5 sec ; 65 best - 65 gasit
@@ -57,8 +57,8 @@ if __name__ == "__main__":
 
     # acs - 1 iter: 504 sec; 10 iter: ? ; 31 best - ? gasit
     # acs3 - 10 iter: 53 sec ; 31 best - 31 gasit
-    dataset = 'inithx.i.2.col'
-    vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/inithx.i.2.col")
+    #dataset = 'inithx.i.2.col'
+    #vertices_count, edges_count, adjacency_matrix = read_data_adj_matrix(filepath="data_files/inithx.i.2.col")
 
     print(vertices_count)
     print(edges_count)
