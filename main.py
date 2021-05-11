@@ -106,10 +106,6 @@ if __name__ == "__main__":
     #
     #acs_3.execute()
 
-    #if dataset == 'queen13_13':
-    #    alpha = 2
-    #    beta = 4
-    #else:
     alpha = 1
     beta = 1
 

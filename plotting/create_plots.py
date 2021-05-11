@@ -36,7 +36,8 @@ def create_plot():
     mins_num_current_iteration = []
 
     #title_plot = log_name.split("_", 2)[2].split(".")[0]
-    title_plot = 'Hybrid Ant Colony Optimization'
+    #title_plot = 'Hybrid Ant Colony Optimization'
+    title_plot = 'Ant Colony System'
 
     with open(os.path.join(LOGS_PATH, log_name), "r") as fd:
         current_iteration = fd.readline().strip()

@@ -28,7 +28,6 @@ class Ant:
 
         self.colours_available = np.sort(copy.deepcopy(self.colours_nodes))
         self.colours_assigned = {node: None for node in self.nodes}
-        #self.colours_counter = {colour: 0 for colour in self.colours_nodes}
 
         if len(self.visited_nodes) == 0:
             self.assign_colour(self.current_node, self.colours_nodes[0])
@@ -39,7 +38,6 @@ class Ant:
 
     def assign_colour(self, node, colour):
         self.colours_assigned[node] = colour
-        #self.colours_counter[colour] += 1
         self.visited_nodes.append(node)
         self.unvisited_nodes.remove(node)
 
@@ -147,51 +145,6 @@ class Ant:
 
         self.num_colours_used = len(set([value for value in best_colours_assigned.values() if value is not None]))
 
-        #for node, assigned_colour in self.colours_assigned.items():
-        #    if assigned_colour == self.num_colours_used - 1:
-        #        adj_nodes = []
-        #        for adj_node in range(self.matrix_adjacency.shape[0]):
-        #            if self.matrix_adjacency[node][adj_node] == 1:
-        #                adj_nodes.append(adj_node)
-        #
-        #        chosen_node = np.random.choice(adj_nodes)
-        #        colours_adjs_chosen_node = []
-        #        for adj_node in range(self.matrix_adjacency.shape[0]):
-        #            if self.matrix_adjacency[chosen_node][adj_node] == 1:
-        #                colours_adjs_chosen_node.append(self.colours_assigned[adj_node])
-        #
-        #        for colour in range(self.num_colours_used - 1):
-        #            if colour not in colours_adjs_chosen_node and colour != self.colours_assigned[chosen_node]:
-        #                self.colours_assigned[chosen_node] = colour
-        #                break
-        #
-        #        colours_adjs_node = []
-        #        for adj_node in range(self.matrix_adjacency.shape[0]):
-        #            if self.matrix_adjacency[node][adj_node] == 1:
-        #                colours_adjs_node.append(self.colours_assigned[adj_node])
-        #
-        #        for colour in range(self.num_colours_used - 1):
-        #            if colour not in colours_adjs_node:
-        #                self.colours_assigned[node] = colour
-        #                break
-        #
-        #self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
-
-
-        #for node, assigned_colour in self.colours_assigned.items():
-        #    if assigned_colour == self.num_colours_used - 1:
-        #        colours_adj_nodes = []
-        #        for adj_node in range(self.matrix_adjacency.shape[0]):
-        #            if self.matrix_adjacency[node][adj_node] == 1:
-        #                colours_adj_nodes.append(self.colours_assigned[adj_node])
-        #
-        #        for colour in range(self.num_colours_used - 1):
-        #            if colour not in colours_adj_nodes:
-        #                self.colours_assigned[node] = colour
-        #                break
-        #
-        #self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
-
     def kempe_chain_interchange(self, first_node, second_node):
         colour_first_node = self.colours_assigned[first_node]
         colour_second_node = self.colours_assigned[second_node]
@@ -245,51 +198,6 @@ class Ant:
 
         self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
 
-        #nodes = []
-        #evals_colorings_nodes = []
-        #
-        #for node in self.nodes:
-        #    for adj_node in self.nodes:
-        #        if self.matrix_adjacency[node, adj_node] == 1:
-        #            nodes.append((node, adj_node))
-        #            eval_colorings = (-1) * (self.colours_counter[self.colours_assigned[node]] ** 2 +
-        #                             self.colours_counter[self.colours_assigned[adj_node]] ** 2)
-        #            evals_colorings_nodes.append(eval_colorings)
-        #
-        #max_eval_colorings = np.min(evals_colorings_nodes)
-        #index_nodes = np.random.choice(np.where(evals_colorings_nodes == max_eval_colorings)[0])
-        #first_node = nodes[index_nodes][0]
-        #second_node = nodes[index_nodes][1]
-        #
-        ##index_first_node = np.random.choice(len(self.visited_nodes))
-        ##first_node = self.visited_nodes[index_first_node]
-        #colour_first_node = self.colours_assigned[first_node]
-        #
-        ##index_second_node = np.random.choice(np.where(self.matrix_adjacency[first_node, :] == 1)[0])
-        ##second_node = self.visited_nodes[index_second_node]
-        #colour_second_node = self.colours_assigned[second_node]
-        #
-        #update_colours_to_nodes = [first_node, second_node]
-        #index_check_node = 0
-        #
-        #while index_check_node < len(update_colours_to_nodes):
-        #    current_node = update_colours_to_nodes[index_check_node]
-        #
-        #    for adj_current_node in range(self.matrix_adjacency.shape[0]):
-        #        if self.matrix_adjacency[current_node][adj_current_node] == 1:
-        #            if self.colours_assigned[adj_current_node] == colour_first_node or self.colours_assigned[adj_current_node] == colour_second_node:
-        #                if adj_current_node not in update_colours_to_nodes:
-        #                    update_colours_to_nodes.append(adj_current_node)
-        #
-        #    index_check_node += 1
-        #
-        #for node in update_colours_to_nodes:
-        #    if self.colours_assigned[node] == colour_first_node:
-        #        self.colours_assigned[node] = colour_second_node
-        #    else:
-        #        self.colours_assigned[node] = colour_first_node
-        #
-        #self.num_colours_used = len(set([value for value in self.colours_assigned.values() if value is not None]))
 
 class AntColonySystem:
     def __init__(self, name_dataset, number_runs, number_vertices, adjacency_matrix, number_ants, number_iterations, a, b, r):
@@ -332,8 +240,7 @@ class AntColonySystem:
         self.colour_nodes = np.array([colour for colour in range(counter_maximum_degree_nodes)])
 
     def initialize_pheromones_trails(self):
-        self.matrix_pheromones_trails = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float)
-        self.matrix_pheromones_trails[:, :] = (self.num_nodes ** 2) / self.ro
+        self.matrix_pheromones_trails = np.ones((self.num_nodes, self.num_nodes), dtype=np.float)
 
     def create_colony(self):
         self.ants_colony = [Ant(nodes_graph=self.nodes,
@@ -458,7 +365,6 @@ class AntColonySystem:
 
                 for ant in self.ants_colony:
                     ant.local_search()
-                    #ant.kempe_chain_local_search()
 
                 self.get_current_min_number_colours_used_and_best_ant()
 
@@ -486,11 +392,5 @@ class AntColonySystem:
             self.write_log_info_run(run)
 
         self.write_log_info_runs()
-
-            #print(self.global_min_num_colours_used)
-            #print(self.global_best_ant.colours_assigned)
-            # print(self.global_best_ant.unvisited_nodes)
-            # print(self.global_best_ant.visited_nodes)
-            # print(self.global_best_ant.colours_nodes)
 
 
